@@ -49,12 +49,10 @@ class MailjetBackend(BaseEmailBackend):
             return False
 
         try:
-            #TODO
             payload = self.messageFormater.build_send_payload(message)
             response = self.post_to_mailjet(payload, message)
 
-            #TODO parse recipients v3 vs v31
-            message.mailjet_response = self._parse_recipients(response, payload, message)
+            message.mailjet_response = self.parse_response(response, payload, message)
 
         except MailjetError:
             if not self.fail_silently:
